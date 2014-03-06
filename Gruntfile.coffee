@@ -9,8 +9,8 @@ module.exports = (grunt) ->
     coffee:
       module:
         files:
-          'lib/simpile-util.js': 'src/simple-util.coffee'
-          'spec/lib/simple-util-spec.js': 'spec/src/simple-util-spec.coffee'
+          'lib/util.js': 'src/util.coffee'
+          'spec/lib/util-spec.js': 'spec/src/util-spec.coffee'
     watch:
       scripts:
         files: ['src/**/*.coffee', 'spec/src/**/*.coffee']
@@ -19,7 +19,7 @@ module.exports = (grunt) ->
       pivotal:
         src: 'lib/**/*.js'
         options:
-          specs: 'spec/lib/simple-util-spec.js'
+          specs: 'spec/lib/util-spec.js'
           summary: true
           host : 'http://127.0.0.1:8000/'
 
