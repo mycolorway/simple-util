@@ -1,25 +1,26 @@
-preloadedImages = {}
-
 util = {
   preloadImages: (images, callback) ->
+    arguments.callee.loadedImages ||= {}
+    loadedImages = arguments.callee.loadedImages
+
     if Object.prototype.toString.call(images) is "[object String]"
       images = [images]
     else if Object.prototype.toString.call(images) isnt "[object Array]"
       return false
 
-    for img in images
-      unless preloadedImages[img]
+    for url in images
+      unless loadedImages[url]
         imgObj = new Image()
 
         if callback and Object.prototype.toString.call(callback) is "[object Function]"
           imgObj.onload = ->
-            preloadedImages[img] = true
+            loadedImages[url] = true
             callback(imgObj)
 
           imgObj.onerror = ->
             callback()
 
-        imgObj.src = img
+        imgObj.src = url
 }
 
 @simple = {} unless @simple

@@ -1,16 +1,59 @@
 (function() {
   describe("preloadImages", function() {
-    beforeEach(function() {
-      var img0, img1, img2;
-      img0 = "";
-      img1 = "";
-      return img2 = "";
+    describe("should be right when param images is a img src string", function() {
+      var img, success;
+      success = false;
+      img = "https://avatars1.githubusercontent.com/u/607967?s=1";
+      beforeEach(function(done) {
+        return simple.preloadImages(img, function(image) {
+          success = !!image;
+          return done();
+        });
+      });
+      return it("should be right when param images is a img src string", function() {
+        return expect(success).toBeTruthy();
+      });
     });
-    it("should be right when param images is a img src string", function() {});
-    it("should be right when param images is a img src array", function() {});
-    it("should exec callback with param imgObj when preload success", function() {});
-    it("should exec callback without param imgObj when preload error", function() {});
-    return it("should only once preload for same image", function() {});
+    describe("should only once preload for same image", function() {
+      var img;
+      img = "https://avatars1.githubusercontent.com/u/607967?s=2";
+      beforeEach(function(done) {
+        return simple.preloadImages(img, function(image) {
+          return done();
+        });
+      });
+      return it("should only once preload for same image", function() {
+        return expect(simple.preloadImages.loadedImages[img]).toBeTruthy();
+      });
+    });
+    describe("should be right when param images is a img src array", function() {
+      var success;
+      success = false;
+      beforeEach(function(done) {
+        var img;
+        img = ["https://avatars1.githubusercontent.com/u/607967?s=3"];
+        return simple.preloadImages(img, function(image) {
+          success = !!image;
+          return done();
+        });
+      });
+      return it("should be right when param images is a img src array", function() {
+        return expect(success).toBeTruthy();
+      });
+    });
+    return describe("should exec callback without param imgObj when preload error", function() {
+      var success;
+      success = false;
+      beforeEach(function(done) {
+        return simple.preloadImages('http://localhost:8000/a.png', function(image) {
+          success = !!image;
+          return done();
+        });
+      });
+      return it("should exec callback without param imgObj when preload error", function() {
+        return expect(success).toBeFalsy();
+      });
+    });
   });
 
 }).call(this);
