@@ -9,7 +9,7 @@ util = {
       return false
 
     for url in images
-      unless loadedImages[url]
+      if !loadedImages[url] or callback
         imgObj = new Image()
 
         if callback and Object.prototype.toString.call(callback) is "[object Function]"

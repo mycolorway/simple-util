@@ -15,7 +15,7 @@ describe "preloadImages", ->
 
 
 
-  describe "should only once preload for same image", ->
+  describe "should only once preload for same image without callback", ->
     img = "https://avatars1.githubusercontent.com/u/607967?s=2"
 
     beforeEach (done) ->
@@ -25,6 +25,24 @@ describe "preloadImages", ->
 
     it "should only once preload for same image", () ->
       expect(simple.preloadImages.loadedImages[img]).toBeTruthy()
+
+
+
+  describe "should preload again for same image with callback", ->
+    img = "https://avatars1.githubusercontent.com/u/607967?s=6"
+    again = false
+
+    beforeEach (done) ->
+      simple.preloadImages(img, (image) ->
+        simple.preloadImages(img, (pic) ->
+          again = true
+          done()
+        )
+      )
+
+    it "should preload again for same image with callback", () ->
+      expect(again).toBeTruthy()
+
 
 
 

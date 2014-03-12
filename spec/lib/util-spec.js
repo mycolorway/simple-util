@@ -14,7 +14,7 @@
         return expect(success).toBeTruthy();
       });
     });
-    describe("should only once preload for same image", function() {
+    describe("should only once preload for same image without callback", function() {
       var img;
       img = "https://avatars1.githubusercontent.com/u/607967?s=2";
       beforeEach(function(done) {
@@ -24,6 +24,22 @@
       });
       return it("should only once preload for same image", function() {
         return expect(simple.preloadImages.loadedImages[img]).toBeTruthy();
+      });
+    });
+    describe("should preload again for same image with callback", function() {
+      var again, img;
+      img = "https://avatars1.githubusercontent.com/u/607967?s=6";
+      again = false;
+      beforeEach(function(done) {
+        return simple.preloadImages(img, function(image) {
+          return simple.preloadImages(img, function(pic) {
+            again = true;
+            return done();
+          });
+        });
+      });
+      return it("should preload again for same image with callback", function() {
+        return expect(again).toBeTruthy();
       });
     });
     describe("should be right when param images is a img src array", function() {
