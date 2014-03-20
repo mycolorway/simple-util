@@ -1,4 +1,19 @@
 util = {
+  os: (->
+    return {} unless navigator?
+
+    if /Mac/.test navigator.appVersion
+      mac: true
+    else if /Linux/.test navigator.appVersion
+      linux: true
+    else if /Win/.test navigator.appVersion
+      win: true
+    else if /X11/.test navigator.appVersion
+      unix: true
+    else
+      {}
+  )()
+
   preloadImages: (images, callback) ->
     arguments.callee.loadedImages ||= {}
     loadedImages = arguments.callee.loadedImages
