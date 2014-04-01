@@ -4,29 +4,28 @@ module.exports = (grunt) ->
 
     pkg: grunt.file.readJSON 'package.json'
 
-    connect:
-      uses_defaults: {}
     coffee:
       module:
         files:
           'lib/util.js': 'src/util.coffee'
-          'spec/lib/util-spec.js': 'spec/src/util-spec.coffee'
+          'spec/util-spec.js': 'spec/util-spec.coffee'
     watch:
       scripts:
         files: ['src/**/*.coffee', 'spec/src/**/*.coffee']
         tasks: ['coffee']
+      jasmine:
+        files: ['lib/**/*.js', 'specs/**/*.js'],
+        tasks: 'jasmine:test:build'
     jasmine:
-      pivotal:
+      test:
         src: 'lib/**/*.js'
         options:
-          specs: 'spec/lib/util-spec.js'
-          summary: true
-          host : 'http://127.0.0.1:8000/'
+          outfile: 'spec/index.html'
+          specs: 'spec/util-spec.js'
+          vendor: ['vendor/jquery-2.1.0.min.js']
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-jasmine'
-  grunt.loadNpmTasks 'grunt-contrib-connect'
 
-  grunt.registerTask 'test', ['coffee', 'connect', 'jasmine']
-  grunt.registerTask 'default', ['watch']
+  grunt.registerTask 'default', ['coffee', 'jasmine:test:build', 'watch']
