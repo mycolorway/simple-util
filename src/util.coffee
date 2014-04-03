@@ -1,4 +1,4 @@
-util = {
+util =
   os: (->
     return {} unless navigator?
 
@@ -69,7 +69,25 @@ util = {
       'webkitTransitionEnd'
     else
       'transitionend'
-}
+
+  prettyDate: (d, format) ->
+    return '' unless moment? and typeof moment == 'function'
+    date = moment(d, format)
+    now = moment()
+    delta = now.diff(date)
+
+    if delta < 0
+      "刚刚"
+    else if date.diff( now.clone().add( "d", -1 ).startOf( "day" )) < 0
+      date.format( "M月D日" )
+    else if date.diff( now.clone().startOf( "day" )) < 0
+      "昨天"
+    else if delta < 60000
+      "刚刚"
+    else if delta >= 60000 && delta < 3600000
+      Math.round(delta / 60000).toFixed(0) + "分钟前"
+    else if delta >= 3600000 && delta < 86400000
+      Math.round(delta / 3600000).toFixed(0) + "小时前"
 
 @simple = {} unless @simple
 
