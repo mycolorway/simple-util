@@ -65,7 +65,7 @@ util = {
 
   # cross browser transitionend event name (IE10+ Opera12+)
   transitionEnd: () ->
-    if simple.util.browser.webkit
+    if simple.browser.webkit
       'webkitTransitionEnd'
     else
       'transitionend'
