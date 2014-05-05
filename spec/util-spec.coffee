@@ -73,3 +73,18 @@ describe "preloadImages", ->
 
     it "should exec callback without param imgObj when preload error", ->
       expect(success).toBeFalsy()
+
+
+describe "fitSize", ->
+
+  it "should return the right size", ->
+    container =
+      width: 100
+      height: 120
+    size =
+      width: 200
+      height: 200
+
+    result = simple.fitSize(container, size)
+    expect(result.width).toEqual(100)
+    expect(result.height).toEqual(100)

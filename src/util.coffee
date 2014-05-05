@@ -89,6 +89,20 @@ util =
     else if delta >= 3600000 && delta < 86400000
       Math.round(delta / 3600000).toFixed(0) + "小时前"
 
+  fitSize: (container, size) ->
+    result =
+      width: size.width
+      height: size.height
+
+    if size.width > container.width or size.height > container.height
+      if size.width / size.height > container.width / container.height
+        result.width = container.width
+        result.height = result.width * size.height / size.width
+      else
+        result.height = container.height
+        result.width = result.height * size.width / size.height
+    result
+
 @simple = {} unless @simple
 
 @simple[k] = v for k, v of util

@@ -72,4 +72,21 @@
     });
   });
 
+  describe("fitSize", function() {
+    return it("should return the right size", function() {
+      var container, result, size;
+      container = {
+        width: 100,
+        height: 120
+      };
+      size = {
+        width: 200,
+        height: 200
+      };
+      result = simple.fitSize(container, size);
+      expect(result.width).toEqual(100);
+      return expect(result.height).toEqual(100);
+    });
+  });
+
 }).call(this);
