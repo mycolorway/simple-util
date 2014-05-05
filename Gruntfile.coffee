@@ -11,7 +11,7 @@ module.exports = (grunt) ->
           'spec/util-spec.js': 'spec/util-spec.coffee'
     watch:
       scripts:
-        files: ['src/**/*.coffee', 'spec/src/**/*.coffee']
+        files: ['src/**/*.coffee', 'spec/**/*.coffee']
         tasks: ['coffee']
       jasmine:
         files: ['lib/**/*.js', 'specs/**/*.js'],
@@ -22,7 +22,7 @@ module.exports = (grunt) ->
         options:
           outfile: 'spec/index.html'
           specs: 'spec/util-spec.js'
-          vendor: ['vendor/jquery-2.1.0.min.js']
+          vendor: ['vendor/bower/jquery/dist/jquery.min.js']
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
