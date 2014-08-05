@@ -89,6 +89,32 @@ util =
     else if delta >= 3600000 && delta < 86400000
       Math.round(delta / 3600000).toFixed(0) + "小时前"
 
+  # a wrapper of localStorage & sessionStorage
+  storage:
+    supported: () ->
+      try
+        localStorage.setItem '_storageSupported', 'yes'
+        localStorage.removeItem '_storageSupported'
+        return true
+      catch e
+        return false
+    set: (key, val, session = false) ->
+      return unless @supported()
+      storage = if session then sessionStorage else localStorage
+      storage.setItem key, val
+
+    get: (key, session = false) ->
+      return unless @supported()
+      storage = if session then sessionStorage else localStorage
+      storage[key]
+
+    remove: (key, session = false) ->
+      return unless @supported()
+      storage = if session then sessionStorage else localStorage
+      storage.removeItem key
+
 @simple = {} unless @simple
 
 @simple[k] = v for k, v of util
+
+
