@@ -70,24 +70,64 @@ util =
     else
       'transitionend'
 
-  prettyDate: (d, format) ->
+  readableDate: (date, opts) ->
     return '' unless moment? and typeof moment == 'function'
-    date = moment(d, format)
-    now = moment()
-    delta = now.diff(date)
+    return '' unless date.isValid()
 
-    if delta < 0
-      "刚刚"
-    else if date.diff( now.clone().add( "d", -1 ).startOf( "day" )) < 0
-      date.format( "M月D日" )
-    else if date.diff( now.clone().startOf( "day" )) < 0
-      "昨天"
-    else if delta < 60000
-      "刚刚"
-    else if delta >= 60000 && delta < 3600000
-      Math.round(delta / 60000).toFixed(0) + "分钟前"
-    else if delta >= 3600000 && delta < 86400000
-      Math.round(delta / 3600000).toFixed(0) + "小时前"
+    defaultOpts =
+      defaultFormat: false
+      currentWeek: false
+      nextWeek: false
+
+    defaultOpts[key] = val for key, val of opts
+    opts = defaultOpts
+
+    date = date.startOf('day')
+    today = moment().startOf('day')
+    today = today.tz(date._z.name) if date._z
+    tomorrow = today.clone().add('d', 1)
+    yesterday = today.clone().add('d', -1)
+
+    return "今天" if date.isSame(today)
+    return "明天" if date.isSame(tomorrow)
+    return "昨天" if date.isSame(yesterday)
+
+    if opts.currentWeek and date.isSame(today, 'isoweek')
+      return "本周#{ moment.weekdaysMin()[date.isoWeekday()%7] }"
+
+    if opts.nextWeek and date.isSame(today.add('week', 1), 'isoweek')
+      return "下周#{ moment.weekdaysMin()[date.isoWeekday()%7] }"
+
+    if opts.defaultFormat
+      return date.format(opts.defaultFormat)
+
+    unless date.isSame(today, 'year')
+      return date.format('YY年M月D日')
+
+    date.format('M月D日')
+
+  readableTime: (datetime) ->
+    return '' unless moment? and typeof moment == 'function'
+    return '' unless datetime.isValid()
+
+    now = moment()
+    now = now.tz(datetime._z.name) if datetime._z
+    yesterday = now.clone().startOf('day').add('d', -1)
+    delta = now.diff(datetime)
+
+    return '刚刚' if now.diff(datetime, 'minutes') < 1
+    return "昨天" if yesterday.isSame(datetime.clone().startOf('day'))
+
+    if now.diff(datetime, 'hours') < 1
+      return "#{ now.diff(datetime, 'minutes') }分钟前"
+
+    if now.diff(datetime, 'days') < 1
+      return "#{ now.diff(datetime, 'hours') }小时前"
+
+    if now.diff(datetime, 'years') < 1
+      return datetime.format('M月D日')
+
+    datetime.format('YY年M月D日')
 
   # a wrapper of localStorage & sessionStorage
   storage:
