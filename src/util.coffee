@@ -82,11 +82,11 @@ util =
     defaultOpts[key] = val for key, val of opts
     opts = defaultOpts
 
-    date = date.startOf('day')
+    date = date.clone().startOf('day')
     today = moment().startOf('day')
     today = today.tz(date._z.name) if date._z
-    tomorrow = today.clone().add('d', 1)
-    yesterday = today.clone().add('d', -1)
+    tomorrow = today.clone().add(1, 'd')
+    yesterday = today.clone().add(-1, 'd')
 
     return "今天" if date.isSame(today)
     return "明天" if date.isSame(tomorrow)
@@ -95,7 +95,7 @@ util =
     if opts.currentWeek and date.isSame(today, 'isoweek')
       return "本周#{ moment.weekdaysMin()[date.isoWeekday()%7] }"
 
-    if opts.nextWeek and date.isSame(today.add('week', 1), 'isoweek')
+    if opts.nextWeek and date.isSame(today.add(1, 'week'), 'isoweek')
       return "下周#{ moment.weekdaysMin()[date.isoWeekday()%7] }"
 
     if opts.defaultFormat
@@ -112,7 +112,7 @@ util =
 
     now = moment()
     now = now.tz(datetime._z.name) if datetime._z
-    yesterday = now.clone().startOf('day').add('d', -1)
+    yesterday = now.clone().startOf('day').add(-1, 'd')
     delta = now.diff(datetime)
 
     return '刚刚' if now.diff(datetime, 'minutes') < 1
