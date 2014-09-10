@@ -129,6 +129,20 @@ util =
 
     datetime.format('YY年M月D日')
 
+  encodeHtml: (val, param) ->
+    (val + "").replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+
+  decodeHtml: (val, param) ->
+    (val + "").replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+
   # a wrapper of localStorage & sessionStorage
   storage:
     supported: () ->
@@ -156,5 +170,3 @@ util =
 @simple = {} unless @simple
 
 @simple[k] = v for k, v of util
-
-
