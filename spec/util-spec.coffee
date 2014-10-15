@@ -5,7 +5,7 @@ describe "preloadImages", ->
     img = "https://avatars1.githubusercontent.com/u/607967?s=1"
 
     beforeEach (done) ->
-      simple.preloadImages(img, (image) ->
+      simple.util.preloadImages(img, (image) ->
         success = !!image
         done()
       )
@@ -19,12 +19,12 @@ describe "preloadImages", ->
     img = "https://avatars1.githubusercontent.com/u/607967?s=2"
 
     beforeEach (done) ->
-      simple.preloadImages(img, (image) ->
+      simple.util.preloadImages(img, (image) ->
         done()
       )
 
     it "should only once preload for same image", () ->
-      expect(simple.preloadImages.loadedImages[img]).toBeTruthy()
+      expect(simple.util.preloadImages.loadedImages[img]).toBeTruthy()
 
 
 
@@ -33,8 +33,8 @@ describe "preloadImages", ->
     again = false
 
     beforeEach (done) ->
-      simple.preloadImages(img, (image) ->
-        simple.preloadImages(img, (pic) ->
+      simple.util.preloadImages(img, (image) ->
+        simple.util.preloadImages(img, (pic) ->
           again = true
           done()
         )
@@ -52,7 +52,7 @@ describe "preloadImages", ->
     beforeEach (done) ->
       img = ["https://avatars1.githubusercontent.com/u/607967?s=3"]
 
-      simple.preloadImages(img, (image) ->
+      simple.util.preloadImages(img, (image) ->
         success = !!image
         done()
       )
@@ -66,7 +66,7 @@ describe "preloadImages", ->
     success = false
 
     beforeEach (done) ->
-      simple.preloadImages('http://localhost:8000/a.png', (image) ->
+      simple.util.preloadImages('http://localhost:8000/a.png', (image) ->
         success = !!image
         done()
       )

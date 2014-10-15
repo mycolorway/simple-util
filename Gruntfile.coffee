@@ -6,9 +6,25 @@ module.exports = (grunt) ->
 
     coffee:
       module:
+        options:
+          bare: true
         files:
           'lib/util.js': 'src/util.coffee'
           'spec/util-spec.js': 'spec/util-spec.coffee'
+    umd:
+      all:
+        src: 'lib/util.js'
+        template: 'umd.hbs'
+        amdModuleId: 'simple-util'
+        objectToExport: 'util'
+        globalAlias: 'util'
+        deps:
+          'default': ['$']
+          amd: ['jquery']
+          cjs: ['jquery']
+          global:
+            items: ['jQuery']
+            prefix: ''
     watch:
       scripts:
         files: ['src/**/*.coffee', 'spec/**/*.coffee']
@@ -27,5 +43,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-jasmine'
+  grunt.loadNpmTasks 'grunt-umd'
 
-  grunt.registerTask 'default', ['coffee', 'jasmine:test:build', 'watch']
+  grunt.registerTask 'default', ['coffee', 'umd', 'jasmine:test:build', 'watch']

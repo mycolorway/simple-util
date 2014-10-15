@@ -64,11 +64,12 @@ util =
         imgObj.src = url
 
   # cross browser transitionend event name (IE10+ Opera12+)
-  transitionEnd: () ->
-    if simple.browser.webkit
-      'webkitTransitionEnd'
-    else
-      'transitionend'
+  # deprecated, bind two events instead: .on 'webkitTransitionEnd transitionend', ->
+  #transitionEnd: () ->
+    #if simple.browser.webkit
+      #'webkitTransitionEnd'
+    #else
+      #'transitionend'
 
   readableDate: (date, opts) ->
     return '' unless moment? and typeof moment == 'function'
@@ -152,9 +153,5 @@ util =
       return unless @supported()
       storage = if session then sessionStorage else localStorage
       storage.removeItem key
-
-@simple = {} unless @simple
-
-@simple[k] = v for k, v of util
 
 
