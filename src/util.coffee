@@ -64,12 +64,16 @@ util =
         imgObj.src = url
 
   # cross browser transitionend event name (IE10+ Opera12+)
-  # deprecated, bind two events instead: .on 'webkitTransitionEnd transitionend', ->
-  #transitionEnd: () ->
-    #if simple.browser.webkit
-      #'webkitTransitionEnd'
-    #else
-      #'transitionend'
+  transitionEnd: () ->
+    el = document.createElement('fakeelement')
+    transitions =
+      'transition':'transitionend'
+      'MozTransition':'transitionend'
+      'WebkitTransition':'webkitTransitionEnd'
+
+    for t of transitions
+      if el.style[t] isnt undefined
+        return transitions[t]
 
   readableDate: (date, opts) ->
     return '' unless moment? and typeof moment == 'function'
