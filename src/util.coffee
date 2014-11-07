@@ -88,8 +88,10 @@ util =
     opts = defaultOpts
 
     date = date.clone().startOf('day')
-    today = moment().startOf('day')
-    today = today.tz(date._z.name) if date._z
+    if date._z
+      today = moment.tz(date._z.name).startOf('d')
+    else
+      today = moment().startOf('d')
     tomorrow = today.clone().add(1, 'd')
     yesterday = today.clone().add(-1, 'd')
 
@@ -115,8 +117,10 @@ util =
     return '' unless moment? and typeof moment == 'function'
     return '' unless datetime.isValid()
 
-    now = moment()
-    now = now.tz(datetime._z.name) if datetime._z
+    if datetime._z
+      now = moment.tz(datetime._z.name)
+    else
+      now = moment()
     yesterday = now.clone().startOf('day').add(-1, 'd')
     delta = now.diff(datetime)
 
