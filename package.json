@@ -1,7 +1,8 @@
 {
   "name": "simple-util",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "description": "some helper method",
+  "main": "lib/util.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:mycolorway/simple-util.git"
